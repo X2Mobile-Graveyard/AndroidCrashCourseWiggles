@@ -46,7 +46,6 @@ import com.x2mobile.wiggles.R
 
 @Composable
 fun OwnerCard(name: String, bio: String, image: Int) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

@@ -80,6 +80,5 @@ val typography = Typography(
         fontFamily = Sailec,
         fontWeight = FontWeight.W500,
         fontSize = 12.sp
-
     )
 )

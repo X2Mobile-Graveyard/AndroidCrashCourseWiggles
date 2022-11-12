@@ -33,8 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.x2mobile.wiggles.R
+import com.x2mobile.wiggles.theme.MyTheme
 
 @Composable
 fun DogInfoCard(name: String, gender: String, location: String) {
@@ -85,5 +87,13 @@ fun DogInfoCard(name: String, gender: String, location: String) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             GenderTag(gender)
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DogInfoCardPreview() {
+    MyTheme {
+        DogInfoCard(name = "asd", gender = "Male", location = "a")
     }
 }

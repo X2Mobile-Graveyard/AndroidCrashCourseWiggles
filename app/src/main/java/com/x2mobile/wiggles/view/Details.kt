@@ -15,6 +15,8 @@
  */
 package com.x2mobile.wiggles.view
 
+import android.annotation.SuppressLint
+import android.icu.text.CaseMap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,9 +55,12 @@ import com.x2mobile.wiggles.component.DogInfoCard
 import com.x2mobile.wiggles.component.InfoCard
 import com.x2mobile.wiggles.component.OwnerCard
 import com.x2mobile.wiggles.data.FakeDogDatabase
+import com.x2mobile.wiggles.model.Dog
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Details(navController: NavController, id: Int) {
+    val dog = FakeDogDatabase.dogList[id]
 
     Scaffold(
         topBar = {
@@ -63,128 +68,140 @@ fun Details(navController: NavController, id: Int) {
                 title = { Text("Details") },
                 backgroundColor = MaterialTheme.colors.background,
                 contentColor = colorResource(id = R.color.text),
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(24.dp, 24.dp)
-                            .clickable {
-                                navController.navigateUp()
-                            },
-                        tint = colorResource(id = R.color.text)
-                    )
-                }
+                navigationIcon = { TopAppBarNavIcon(navController::navigateUp) }
             )
         },
 
         content = {
-            DetailsView(id)
+            DetailsView(dog)
         }
     )
 }
 
 @Composable
-fun DetailsView(id: Int) {
+fun TopAppBarNavIcon(onClick: () -> Unit) {
+    Icon(
+        imageVector = Icons.Default.ArrowBack,
+        contentDescription = null,
+        modifier = Modifier
+            .size(24.dp, 24.dp)
+            .clickable(onClick = onClick),
+        tint = colorResource(id = R.color.text)
+    )
+}
+
+@Composable
+fun DetailsView(dog: Dog) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
     ) {
-
-        val dog = FakeDogDatabase.dogList[id]
-
         // Basic details
         item {
-            dog.apply {
-
-                val dogImage: Painter = painterResource(id = dog.image)
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(346.dp),
-                    painter = dogImage,
-                    alignment = Alignment.CenterStart,
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-                DogInfoCard(name, gender, location)
-            }
+            BasicDetail(dogImageId = dog.image, name = dog.name, gender = dog.gender, location = dog.location)
         }
 
         // My story details
         item {
-            dog.apply {
-
-                Spacer(modifier = Modifier.height(24.dp))
-                Title(title = "My Story")
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = about,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp, 16.dp, 0.dp),
-                    color = colorResource(id = R.color.text),
-                    style = MaterialTheme.typography.body2,
-                    textAlign = TextAlign.Start
-                )
-            }
+            MyStoryDetails(about = dog.about)
         }
 
         // Quick info
         item {
-            dog.apply {
-
-                Spacer(modifier = Modifier.height(24.dp))
-                Title(title = "Dog info")
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp, 16.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    InfoCard(title = "Age", value = dog.age.toString().plus(" yrs"))
-                    InfoCard(title = "Color", value = color)
-                    InfoCard(title = "Weight", value = weight.toString().plus("Kg"))
-                }
-            }
+            QuickInfo(age = dog.age, color = dog.color, weight = dog.weight)
         }
 
         // Owner info
         item {
-            dog.apply {
-
-                Spacer(modifier = Modifier.height(24.dp))
-                Title(title = "Owner info")
-                Spacer(modifier = Modifier.height(16.dp))
-                owner.apply {
-                    OwnerCard(name, bio, image)
-                }
-            }
+            OwnerInfo(name = dog.owner.name, bio = dog.owner.bio, image = dog.owner.image)
         }
 
         // CTA - Adopt me button
         item {
-            Spacer(modifier = Modifier.height(36.dp))
-            Button(
-                onClick = { /* Do something! */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-                    .padding(16.dp, 0.dp, 16.dp, 0.dp),
-                colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = colorResource(id = R.color.blue),
-                    contentColor = Color.White
-                )
-            ) {
-                Text("Adopt me")
-            }
-            Spacer(modifier = Modifier.height(24.dp))
+            AdoptMeButton()
         }
     }
+}
+
+@Composable
+fun BasicDetail(dogImageId: Int, name: String, gender: String, location: String) {
+    val dogImage: Painter = painterResource(id = dogImageId)
+    Image(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(346.dp),
+        painter = dogImage,
+        alignment = Alignment.CenterStart,
+        contentDescription = "",
+        contentScale = ContentScale.Crop
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    DogInfoCard(name, gender, location)
+}
+
+@Composable
+fun MyStoryDetails(about: String) {
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Title(title = "My Story")
+
+    Spacer(modifier = Modifier.height(16.dp))
+    Text(
+        text = about,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
+        color = colorResource(id = R.color.text),
+        style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
+fun QuickInfo(age: Double, color: String, weight: Double) {
+    Spacer(modifier = Modifier.height(24.dp))
+    Title(title = "Dog info")
+    Spacer(modifier = Modifier.height(16.dp))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        InfoCard(title = "Age", value = age.toString().plus(" yrs"))
+        InfoCard(title = "Color", value = color)
+        InfoCard(title = "Weight", value = weight.toString().plus("Kg"))
+    }
+}
+
+@Composable
+fun OwnerInfo(name: String, bio: String, image: Int) {
+    Spacer(modifier = Modifier.height(24.dp))
+    Title(title = "Owner info")
+    Spacer(modifier = Modifier.height(16.dp))
+    OwnerCard(name, bio, image)
+}
+
+@Composable
+fun AdoptMeButton() {
+    Spacer(modifier = Modifier.height(36.dp))
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
+        colors = ButtonDefaults.textButtonColors(
+            backgroundColor = colorResource(id = R.color.blue),
+            contentColor = Color.White
+        )
+    ) {
+        Text("Adopt me")
+    }
+    Spacer(modifier = Modifier.height(24.dp))
 }
 
 @Composable

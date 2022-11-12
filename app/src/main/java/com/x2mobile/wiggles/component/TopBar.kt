@@ -38,42 +38,49 @@ import com.x2mobile.wiggles.R
 
 @Composable
 fun TopBar(onToggle: () -> Unit) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Hey Spikey,",
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.surface
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Adopt a new friend near you!",
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.subtitle1,
-                color = MaterialTheme.colors.surface
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp, 24.dp, 36.dp, 0.dp),
-            horizontalArrangement = Arrangement.End
-        ) {
-            WigglesThemeSwitch(onToggle = { onToggle() })
-        }
+        TopBarTitle()
+        TopBarButton(onToggle)
     }
 }
 
 @Composable
-fun WigglesThemeSwitch(onToggle: () -> Unit) {
+fun TopBarTitle() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "Hey Spikey,",
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.h5,
+            color = MaterialTheme.colors.surface
+        )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Adopt a new friend near you!",
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.surface
+        )
+    }
+}
+
+@Composable
+fun TopBarButton(onToggle: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 24.dp, 36.dp, 0.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        WigglesThemeSwitch(onToggle = { onToggle() })
+    }
+}
+@Composable
+fun WigglesThemeSwitch(onToggle: () -> Unit) {
     val icon = if (isSystemInDarkTheme())
         painterResource(id = R.drawable.ic_light_off)
     else
