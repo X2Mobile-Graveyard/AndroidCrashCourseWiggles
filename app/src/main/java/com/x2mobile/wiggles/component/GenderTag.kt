@@ -32,22 +32,10 @@ import com.x2mobile.wiggles.R
 
 @Composable
 fun GenderTag(name: String) {
-    val color = if (name == "Male") R.color.blue else R.color.red
-    ChipView(gender = name, colorResource = colorResource(id = color))
+
 }
 
 @Composable
 fun ChipView(gender: String, colorResource: Color) {
-    Box(
-        modifier = Modifier
-            .wrapContentWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(colorResource.copy(.08f))
-    ) {
-        Text(
-            text = gender, modifier = Modifier.padding(12.dp, 6.dp, 12.dp, 6.dp),
-            style = MaterialTheme.typography.caption,
-            color = colorResource
-        )
-    }
+
 }

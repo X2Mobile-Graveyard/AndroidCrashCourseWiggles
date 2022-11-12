@@ -53,7 +53,7 @@ fun ItemDogCard(dog: Dog, onItemClicked: (dog: Dog) -> Unit) {
             .fillMaxWidth()
             .padding(8.dp)
             .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = { onItemClicked(dog) }),
+            .clickable(enabled = false, onClick = { onItemClicked(dog) }),
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.onSurface
     ) {
@@ -63,83 +63,20 @@ fun ItemDogCard(dog: Dog, onItemClicked: (dog: Dog) -> Unit) {
 
 @Composable
 fun ItemDogCardContent(dog: Dog) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        DogImage(imageId = dog.image)
 
-        DogInfo(name = dog.name, age = dog.age, gender = dog.gender, location = dog.location)
-
-        DogGender(gender = dog.gender)
-    }
 }
 
 @Composable
 fun DogImage(imageId: Int) {
-    val image: Painter = painterResource(id = imageId)
 
-    Image(
-        modifier = Modifier
-            .size(80.dp, 80.dp)
-            .clip(RoundedCornerShape(16.dp)),
-        painter = image,
-        alignment = Alignment.CenterStart,
-        contentDescription = "",
-        contentScale = ContentScale.Crop
-    )
-
-    Spacer(modifier = Modifier.width(16.dp))
 }
 
 @Composable
 fun RowScope.DogInfo(name: String, age: Double, gender: String, location: String) {
-    Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-        Text(
-            text = name,
-            modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-            color = MaterialTheme.colors.surface,
-            fontWeight = FontWeight.Bold,
-            style = typography.subtitle1
-        )
-        Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = buildString {
-                append(age)
-                append("yrs | ")
-                append(gender)
-            },
-            modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-            color = MaterialTheme.colors.surface,
-            style = typography.caption
-        )
-
-        Row(verticalAlignment = Alignment.Bottom) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_location),
-                contentDescription = null,
-                modifier = Modifier.size(16.dp, 16.dp),
-                tint = Color.Red
-            )
-
-            Text(
-                text = location,
-                modifier = Modifier.padding(8.dp, 12.dp, 12.dp, 0.dp),
-                color = MaterialTheme.colors.surface,
-                style = typography.caption
-            )
-        }
-    }
 }
 
 @Composable
 fun DogGender(gender: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
-    ) {
-        GenderTag(gender)
-    }
+
 }

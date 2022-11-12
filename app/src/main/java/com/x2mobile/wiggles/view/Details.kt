@@ -80,14 +80,7 @@ fun Details(navController: NavController, id: Int) {
 
 @Composable
 fun TopAppBarNavIcon(onClick: () -> Unit) {
-    Icon(
-        imageVector = Icons.Default.ArrowBack,
-        contentDescription = null,
-        modifier = Modifier
-            .size(24.dp, 24.dp)
-            .clickable(onClick = onClick),
-        tint = colorResource(id = R.color.text)
-    )
+
 }
 
 @Composable
@@ -144,20 +137,7 @@ fun BasicDetail(dogImageId: Int, name: String, gender: String, location: String)
 
 @Composable
 fun MyStoryDetails(about: String) {
-    Spacer(modifier = Modifier.height(24.dp))
 
-    Title(title = "My Story")
-
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-        text = about,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp, 16.dp, 0.dp),
-        color = colorResource(id = R.color.text),
-        style = MaterialTheme.typography.body2,
-        textAlign = TextAlign.Start
-    )
 }
 
 @Composable
@@ -179,41 +159,15 @@ fun QuickInfo(age: Double, color: String, weight: Double) {
 
 @Composable
 fun OwnerInfo(name: String, bio: String, image: Int) {
-    Spacer(modifier = Modifier.height(24.dp))
-    Title(title = "Owner info")
-    Spacer(modifier = Modifier.height(16.dp))
-    OwnerCard(name, bio, image)
+
 }
 
 @Composable
 fun AdoptMeButton() {
-    Spacer(modifier = Modifier.height(36.dp))
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(52.dp)
-            .padding(16.dp, 0.dp, 16.dp, 0.dp),
-        colors = ButtonDefaults.textButtonColors(
-            backgroundColor = colorResource(id = R.color.blue),
-            contentColor = Color.White
-        )
-    ) {
-        Text("Adopt me")
-    }
-    Spacer(modifier = Modifier.height(24.dp))
+
 }
 
 @Composable
 fun Title(title: String) {
-    Text(
-        text = title,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp, 0.dp, 0.dp),
-        color = colorResource(id = R.color.text),
-        style = MaterialTheme.typography.subtitle1,
-        fontWeight = FontWeight.W600,
-        textAlign = TextAlign.Start
-    )
+
 }

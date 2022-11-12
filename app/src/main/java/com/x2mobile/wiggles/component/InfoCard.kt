@@ -41,36 +41,5 @@ import com.x2mobile.wiggles.R
 
 @Composable
 fun InfoCard(title: String, value: String) {
-    Box(
-        modifier = Modifier
-            .size(90.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = colorResource(id = R.color.card))
-            .padding(12.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.wrapContentWidth()
-        ) {
-            Text(
-                text = value,
-                modifier = Modifier.fillMaxWidth(),
-                color = colorResource(id = R.color.text),
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.W600,
-                textAlign = TextAlign.Center
-            )
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = title,
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.Gray,
-                style = MaterialTheme.typography.overline,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
 }
